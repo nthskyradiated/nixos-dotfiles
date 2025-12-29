@@ -17,9 +17,8 @@
 
   # Localization
   time.timeZone = "Asia/Dubai";
-  #
+
   # Audio
-  #
   security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
 
   services.pipewire = {
@@ -31,9 +30,7 @@
     # jack.enable = true;
   };
 
-  #
   # Bluetooth
-  #
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
@@ -44,6 +41,7 @@
     xwayland.enable = true;
     withUWSM = true;
   };
+
 
   # User configuration
   users.users.andy = {
@@ -56,18 +54,19 @@
   environment.systemPackages = with pkgs; [
     vim
     wget
-    ghostty
-    waybar
-    kitty
-    wofi
-    librewolf
-    hyprpaper
-    kdePackages.dolphin
-    vlc
-    pavucontrol # PulseAudio Volume Control
-    pamixer # Command-line mixer for PulseAudio
-    bluez # Bluetooth support
-    bluez-tools # Bluetooth tool
+    ghostty                 # Main Terminal
+    waybar                  # Wayland Bar
+    kitty                   # Terminal
+    wofi                    # Launcher
+    librewolf               # Web Browser
+    hyprpaper               # Wallpaper Manager
+    kdePackages.dolphin     # File Browser
+    vlc                     # Media Playeer
+    pavucontrol             # PulseAudio Volume Control
+    pamixer                 # Command-line mixer for PulseAudio
+    bluez                   # Bluetooth support
+    bluez-tools             # Bluetooth tool
+    brightnessctl
   ];
 
   # Fonts
@@ -75,6 +74,9 @@
     jetbrains-mono
     nerd-fonts.fira-code
     nerd-fonts.caskaydia-mono
+    adwaita-fonts
+    fira-code
+    fira-code-symbols
   ];
 
   # Virtualization - simplified config

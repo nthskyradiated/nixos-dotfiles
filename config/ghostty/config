@@ -1,12 +1,16 @@
 # Font configuration
-font-family = CaskaydiaMono Nerd Font
-font-size = 14
+font-family = ""
+font-family = FiraCode Nerd Font Mono
+font-size = 13
+
+theme = TokyoNight Moon
 
 # Window settings
 window-padding-x = 14
 window-padding-y = 14
 window-decoration = false
-background-opacity = 0.9
+background-opacity = 0.8
+
 
 # Terminal settings
 term = xterm-256color

@@ -63,6 +63,16 @@
         exec uwsm start hyprland-uwsm.desktop
       fi
     '';
+    initExtra = ''
+      # Colors
+  GREEN="\[\e[32m\]"
+  CYAN="\[\e[36m\]"
+  BLUE="\[\e[34m\]"
+  RESET="\[\e[0m\]"
+
+  # Two-line prompt (note the ''${VAR} escaping trick)
+  PS1="''${GREEN}\u@\h''${BLUE}:''${GREEN}\w''${CYAN}$\n=>''${RESET} "
+  '';
   };
 
   wayland.windowManager.hyprland = {
