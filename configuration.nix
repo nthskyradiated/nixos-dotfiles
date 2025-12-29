@@ -17,7 +17,27 @@
 
   # Localization
   time.timeZone = "Asia/Dubai";
+  #
+  # Audio
+  #
+  security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
 
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # Uncomment the following line if you want to use JACK applications
+    # jack.enable = true;
+  };
+
+  #
+  # Bluetooth
+  #
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
   # Hyprland (system-level)
   programs.hyprland = {
     enable = true;
@@ -31,8 +51,6 @@
     extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" ];
   };
 
-  # System-wide programs
-  programs.firefox.enable = true;
 
   # System packages
   environment.systemPackages = with pkgs; [
@@ -44,8 +62,12 @@
     wofi
     librewolf
     hyprpaper
-    # Optional: if you want virt-manager GUI
-    virt-manager
+    kdePackages.dolphin
+    vlc
+    pavucontrol # PulseAudio Volume Control
+    pamixer # Command-line mixer for PulseAudio
+    bluez # Bluetooth support
+    bluez-tools # Bluetooth tool
   ];
 
   # Fonts
@@ -59,13 +81,13 @@
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-      package = pkgs.qemu_kvm;  # Use KVM-only version
-      runAsRoot = false;
-      swtpm.enable = true;  # TPM emulation for Windows 11, etc.
-    };
-  };
-  
-  virtualisation.docker.enable = true;
+       package = pkgs.qemu_kvm;  # Use KVM-only version
+       runAsRoot = false;
+       swtpm.enable = true;  # TPM emulation for Windows 11, etc.
+     };
+   };
+   programs.virt-manager.enable = true;
+   virtualisation.docker.enable = true;
 
   # Nix settings
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
