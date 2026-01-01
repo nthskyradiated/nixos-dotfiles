@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -10,7 +10,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   services.getty.autologinUser = "andy";
-  
+
   # Networking
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
@@ -19,15 +19,12 @@
   time.timeZone = "Asia/Dubai";
 
   # Audio
-  security.rtkit.enable = true; # Enable RealtimeKit for audio purposes
-
+  security.rtkit.enable = true; # RealtimeKit for audio
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # Uncomment the following line if you want to use JACK applications
-    # jack.enable = true;
   };
 
   # Bluetooth
@@ -35,13 +32,13 @@
     enable = true;
     powerOnBoot = true;
   };
-  # Hyprland (system-level)
+
+  # Hyprland
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
     withUWSM = true;
   };
-
 
   # User configuration
   users.users.andy = {
@@ -49,10 +46,9 @@
     extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" ];
   };
 
-
   # System packages
   environment.systemPackages = with pkgs; [
-    vim
+    tree
     wget
     ghostty                 # Main Terminal
     waybar                  # Wayland Bar
@@ -67,6 +63,7 @@
     bluez                   # Bluetooth support
     bluez-tools             # Bluetooth tool
     brightnessctl
+    swayosd
   ];
 
   # Fonts
@@ -75,24 +72,24 @@
     nerd-fonts.fira-code
     nerd-fonts.caskaydia-mono
     adwaita-fonts
-    fira-code
-    fira-code-symbols
   ];
 
-  # Virtualization - simplified config
+  # Virtualization
   virtualisation.libvirtd = {
     enable = true;
     qemu = {
-       package = pkgs.qemu_kvm;  # Use KVM-only version
-       runAsRoot = false;
-       swtpm.enable = true;  # TPM emulation for Windows 11, etc.
-     };
-   };
-   programs.virt-manager.enable = true;
-   virtualisation.docker.enable = true;
+      package = pkgs.qemu_kvm;
+      runAsRoot = false;
+      swtpm.enable = true;
+    };
+  };
+  programs.virt-manager.enable = true;
+  virtualisation.docker.enable = true;
 
   # Nix settings
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # System version
   system.stateVersion = "25.11";
 }
+
