@@ -134,6 +134,7 @@ qt = {
 
   # Config files managed by Home Manager
   home.file.".config/hypr".source    = ./config/hypr;
+  home.file.".config/dolphinrc".source    = ./config/dolphin/dolphinrc;
   home.file.".config/wofi".source    = ./config/wofi;
   home.file.".config/waybar".source  = ./config/waybar;
   home.file.".config/ghostty".source = ./config/ghostty;
