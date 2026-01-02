@@ -2,8 +2,8 @@
 
 {
     imports = [
-    ./modules/neovim.nix  # Just import the module
-    ./modules/vim.nix  # Just import the module
+    ./modules/neovim.nix
+    ./modules/vim.nix  
   ];
 
   home.username = "andy";
@@ -21,6 +21,7 @@
     fzf
     btop
     shellcheck
+    tor-browser
 
     # Development tools
     go
@@ -97,8 +98,18 @@ qt = {
 };
 
   # Git
-  programs.git.enable = true;
-
+  programs.git = {
+  enable = true;
+  ignores = [
+  "node_modules"
+  ".env"
+  "!.env.example"
+  ".svelte-kit"
+  "/build"
+  "*key*"
+  "dist/"
+  ];
+};
   # Bash with bold, colored prompt
   programs.bash = {
     enable = true;
@@ -107,6 +118,7 @@ qt = {
       ls = "exa -l --icons";
       k = "kubectl";
       nrs = "sudo nixos-rebuild switch";
+      nixdelgrub = "sudo nix-env --delete-generations old --profile /nix/var/nix/profiles/system && sudo /nix/var/nix/profiles/system/bin/switch-to-configuration switch";
     };
     profileExtra = ''
       if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
@@ -122,7 +134,7 @@ qt = {
       RESET="\[\e[0m\]"
 
       # Two-line bold prompt
-      PS1="''${BOLD}''${GREEN}\u@\h''${BLUE}:''${GREEN}\w''${CYAN}$\n=>''${RESET} "
+      PS1="''${BOLD}''${BLUE}\u@\h''${GREEN}:''${CYAN}\w''${GREEN}$\n=>''${RESET} "
     '';
   };
 
