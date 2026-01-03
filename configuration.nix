@@ -15,6 +15,16 @@
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
+networking.hosts = {
+  "192.168.100.200" = [ "loadbalancer" ];
+  "192.168.100.211" = [ "controlplane01" ];
+  "192.168.100.212" = [ "controlplane02" ];
+  "192.168.100.213" = [ "controlplane03" ];
+  "192.168.100.221" = [ "node01" ];
+  "192.168.100.222" = [ "node02" ];
+  "192.168.100.223" = [ "node03" ];
+};
+
   # Localization
   time.timeZone = "Asia/Dubai";
 
@@ -62,8 +72,17 @@
     pamixer                 # Command-line mixer for PulseAudio
     bluez                   # Bluetooth support
     bluez-tools             # Bluetooth tool
-    brightnessctl
-    swayosd
+    brightnessctl           # Brightness control
+    swayosd                 # display for volume / brightness
+    cdrkit                  # ISO creator for kubernetes VM
+
+  (python313.withPackages (ps: with ps; [
+    ansible-core
+    libvirt
+    lxml
+    xmltodict
+  ]))
+
   ];
 
   # Fonts

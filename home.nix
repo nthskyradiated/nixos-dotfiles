@@ -22,13 +22,13 @@
     btop
     shellcheck
     tor-browser
+    sshpass
 
     # Development tools
     go
     nodejs_24
     pnpm
     deno
-    python314
 
     # Kubernetes tools
     kubectl
@@ -41,7 +41,6 @@
     jq
 
     # Other utilities
-    ansible
     nil
     nixpkgs-fmt 
     libnotify
