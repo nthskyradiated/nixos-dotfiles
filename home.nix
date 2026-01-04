@@ -1,9 +1,10 @@
 { config, pkgs, ... }:
 
 {
-    imports = [
-    ./modules/neovim.nix
-    ./modules/vim.nix  
+  imports = [
+    ./modules/editors/neovim
+    ./modules/editors/vim
+    ./modules/development/languages.nix
   ];
 
   home.username = "andy";
@@ -12,17 +13,11 @@
 
   # User-specific packages
   home.packages = with pkgs; [
-    # Shell utilities
+    # Shell utilities (removed duplicates from languages.nix)
     tealdeer
-    bat
     eza
-    ripgrep
-    fd
-    fzf
     btop
     shellcheck
-    tor-browser
-    sshpass
 
     # Development tools
     go
@@ -41,74 +36,71 @@
     jq
 
     # Other utilities
+    tor-browser
+    sshpass
+    opentofu
     nil
     nixpkgs-fmt 
     libnotify
     gnome-themes-extra
     papirus-icon-theme
 
-    #Neovim packages
-    gopls
-    typescript-language-server
-    svelte-language-server
-    yaml-language-server
-    terraform-ls
-    docker-ls
-    lua-language-server
-    vscode-json-languageserver
-
+    # Custom nix search script
     (pkgs.writeShellScriptBin "ns" ''
       export PATH="${pkgs.lib.makeBinPath [ pkgs.fzf pkgs.nix-search-tv ]}:$PATH"
       ${builtins.readFile "${pkgs.nix-search-tv.src}/nixpkgs.sh"}
     '')
   ];
   
+  # GTK theming
   gtk = {
-  enable = true;
+    enable = true;
 
-  font = {
-    name = "Adwaita";
-    size = 11;
+    font = {
+      name = "Adwaita";
+      size = 11;
+    };
+
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
+    };
+
+    theme = {
+      name = "Adwaita-dark";
+      package = pkgs.gnome-themes-extra;
+    };
+
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
+
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme = true;
+    };
   };
 
-  iconTheme = {
-    name = "Papirus-Dark";  # Use dark variant
-    package = pkgs.papirus-icon-theme;
+  # QT theming
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk3";
+    style.name = "adwaita-dark";
   };
-
-  theme = {
-    name = "Adwaita-dark";
-    package = pkgs.gnome-themes-extra;
-  };
-
-  gtk3.extraConfig = {
-    gtk-application-prefer-dark-theme = true;
-  };
-
-  gtk4.extraConfig = {
-    gtk-application-prefer-dark-theme = true;
-  };
-};
-
-qt = {
-  enable = true;
-  platformTheme.name = "gtk3";
-  style.name = "adwaita-dark";
-};
 
   # Git
   programs.git = {
-  enable = true;
-  ignores = [
-  "node_modules"
-  ".env"
-  "!.env.example"
-  ".svelte-kit"
-  "/build"
-  "*key*"
-  "dist/"
-  ];
-};
+    enable = true;
+    ignores = [
+      "node_modules"
+      ".env"
+      "!.env.example"
+      ".svelte-kit"
+      "/build"
+      "*key*"
+      "dist/"
+    ];
+  };
+
   # Bash with bold, colored prompt
   programs.bash = {
     enable = true;
@@ -144,15 +136,13 @@ qt = {
   };
 
   # Config files managed by Home Manager
-  home.file.".config/hypr".source    = ./config/hypr;
-  home.file.".config/dolphinrc".source    = ./config/dolphin/dolphinrc;
-  home.file.".config/wofi".source    = ./config/wofi;
-  home.file.".config/waybar".source  = ./config/waybar;
+  home.file.".config/hypr".source = ./config/hypr;
+  home.file.".config/dolphinrc".source = ./config/dolphin/dolphinrc;
+  home.file.".config/wofi".source = ./config/wofi;
+  home.file.".config/waybar".source = ./config/waybar;
   home.file.".config/ghostty".source = ./config/ghostty;
   home.file.".config/hypr/scripts/toggle-audio.sh" = {
-  source = ./config/hypr/scripts/toggle-audio.sh;
-  executable = true;
-};
-
+    source = ./config/hypr/scripts/toggle-audio.sh;
+    executable = true;
+  };
 }
-
